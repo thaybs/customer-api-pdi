@@ -4,4 +4,5 @@ export interface IProduct {
   description?: string;
   active: boolean;
   createdAt?: Date;
+  deletedAt?: Date;
 }
