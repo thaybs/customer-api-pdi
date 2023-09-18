@@ -27,7 +27,7 @@
     "axios": "^1.5.0",
     "keycloak-connect": "^22.0.3",
     "mongodb": "^6.0.0",
-    "mongoose": "^7.5.1",
+    "mongoose": "^7.5.2",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0"
