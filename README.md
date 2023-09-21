@@ -17,7 +17,7 @@
 
 ## 👨‍💻 Descrição
 
-Este serviço é uma API RESTful desenvolvida em Node.js com o framework Nest.js e TypeScript. O principal objetivo é criar um sistema de gerenciamento de produtos, que inclui cadastro, validação de usuário através do Keycloak, operações de CRUD (Criar, Ler, Atualizar e Deletar) de produtos, integração com um banco de dados MongoDB e rotas autenticadas via JWT passadas pelo cabeçalho `Authorization: Bearer <token>`. Além disso, o projeto também inclui documentação Swagger para facilitar o uso e teste da API.
+Este serviço é uma API RESTful desenvolvida em Node.js com o framework Nest.js e TypeScript. O principal objetivo é criar um sistema de gerenciamento de clientes, que inclui cadastro, validação de usuário através do Keycloak, operações de CRUD (Criar, Ler, Atualizar e Deletar) de clientes, integração com um banco de dados MongoDB e rotas autenticadas via JWT passadas pelo cabeçalho `Authorization: Bearer <token>`. Além disso, o projeto também inclui documentação Swagger para facilitar o uso e teste da API.
 
 ## 🎯 Objetivo
 
@@ -63,10 +63,10 @@ $ npm run test:cov
 
 ## API Reference
 
-### Create a product
+### Create a customer
 
 ```http
-  POST /api/products //Cria um novo produto
+  POST /api/customers //Cria um novo produto
 ```
 
 <table>
@@ -89,16 +89,16 @@ $ npm run test:cov
 }</pre></td>
       <td style="white-space: pre-line;">
         <pre>{ 
-  name: "product name", 
-  description: "A description of the product",  
+  name: "customer name", 
+  description: "A description of the customer",  
   active: true, 
 }</pre>
       <td style="white-space: pre-line;">
         <pre>
   { 
     id: "f20fee7f-20bc-47fc-b2ea-14ca88a58e8b",
-    name: "product name", 
-    description: "A description of the product",  
+    name: "customer name", 
+    description: "A description of the customer",  
     active: true, 
     createdAt: "11-01-2022" 
   }</pre>
@@ -107,10 +107,10 @@ $ npm run test:cov
   </tbody>
 </table>
 
-### Get all products
+### Get all customers
 
 ```http
-  GET /api/products //Busca todos os produtos existentes
+  GET /api/customers //Busca todos os produtos existentes
 ```
 
 <table>
@@ -132,15 +132,15 @@ $ npm run test:cov
         <pre>[ 
   { 
     id: "f20fee7f-20bc-47fc-b2ea-14ca88a58e8b",
-    name: "product name", 
-    description: "A description of the product",  
+    name: "customer name", 
+    description: "A description of the customer",  
     active: true, 
     createdAt: "11-01-2022" 
   },
   { 
     id: "8da2b069-76d2-412e-a89d-e7d31cf08e1a",
-    name: "product name foo", 
-    description: "A description of the product",  
+    name: "customer name foo", 
+    description: "A description of the customer",  
     active: true, 
     createdAt: "28-02-2022" 
   }
@@ -151,10 +151,10 @@ $ npm run test:cov
   </tbody>
 </table>
 
-### Get product by Id
+### Get customer by Id
 
 ```http
-  GET /api/products/${productId}
+  GET /api/customers/${customerId}
 ```
 
 <table>
@@ -169,15 +169,15 @@ $ npm run test:cov
   </thead>
   <tbody>
     <tr>
-      <td>productId</td>
+      <td>customerId</td>
       <td>string</td>
       <td>--</td>
       <td style="white-space: pre-line;">
         <pre>
   { 
     id: "f20fee7f-20bc-47fc-b2ea-14ca88a58e8b",
-    name: "product name", 
-    description: "A description of the product",  
+    name: "customer name", 
+    description: "A description of the customer",  
     active: true, 
     createdAt: "11-01-2022" 
   }</pre>
@@ -187,10 +187,10 @@ $ npm run test:cov
   </tbody>
 </table>
 
-#### Update product by Id
+#### Update customer by Id
 
 ```http
-  PUT /api/products/${productId}//Atualiza os dados do produto indicado via id.
+  PUT /api/customers/${customerId}//Atualiza os dados do produto indicado via id.
 ```
 
 <table>
@@ -205,14 +205,14 @@ $ npm run test:cov
   </thead>
   <tbody>
     <tr>
-      <td>productId</td>
+      <td>customerId</td>
       <td>string</td>
       <td style="white-space: pre-line;">
         <pre>
   { 
     id: "f20fee7f-20bc-47fc-b2ea-14ca88a58e8b",
-    name: "updated product", 
-    description: "A description of the product",  
+    name: "updated customer", 
+    description: "A description of the customer",  
     active: true, 
     createdAt: "11-01-2022" 
   }</pre>
@@ -223,10 +223,10 @@ $ npm run test:cov
   </tbody>
 </table>
 
-#### Delete product by Id
+#### Delete customer by Id
 
 ```http
-  DELETE /api/products/${productId}
+  DELETE /api/customers/${customerId}
 ```
 
 <table>
@@ -241,7 +241,7 @@ $ npm run test:cov
   </thead>
   <tbody>
     <tr>
-      <td>productId</td>
+      <td>customerId</td>
       <td>string</td>
       <td>--</td>
       <td>--</td>
