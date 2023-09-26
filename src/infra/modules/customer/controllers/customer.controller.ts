@@ -1,14 +1,19 @@
-import { Body, Controller, Inject, Post } from '@nestjs/common'
+import { Controller, Get, Post, Body } from '@nestjs/common'
 import { ICreateCustomerParams } from 'src/api/customer/ICreateCustomer'
-import { ICustomer } from 'src/domain/ICustomer'
+import { ICustomer } from 'src/domain/Customer'
 import CustomerService from 'src/infra/modules/customer/services/customer.service'
 
 @Controller('customers')
 export class CustomerController {
-  private customers = []
+  constructor(private service: CustomerService) {}
+
+  @Get()
+  async findAll(): Promise<ICustomer[]> {
+    return this.service.findAll()
+  }
 
   @Post()
-  async create(@Body() params: ICreateCustomerParams): Promise<ICustomer> {
-    return
+  create(@Body() customer: ICreateCustomerParams): Promise<ICustomer> {
+    return this.service.create(customer)
   }
 }
