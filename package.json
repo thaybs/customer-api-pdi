@@ -1,5 +1,5 @@
 {
-  "name": "thay-svc-api",
+  "name": "customer-svc-api",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -23,6 +23,7 @@
   "dependencies": {
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",
+    "@nestjs/mongoose": "^10.0.1",
     "@nestjs/platform-express": "^9.0.0",
     "axios": "^1.5.0",
     "keycloak-connect": "^22.0.3",
@@ -62,7 +63,7 @@
       "json",
       "ts"
     ],
-    "rootDir": "src",
+    "rootDir": "test",
     "testRegex": ".*\\.spec\\.ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
@@ -70,6 +71,7 @@
     "collectCoverageFrom": [
       "**/*.(t|j)s"
     ],
+    "collectCoverage": true,
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
   }
