@@ -104,10 +104,33 @@ $ npm run test:cov
   }</pre>
       <td>200 OK</td>
     </tr>
+    <tr>
+    <td>--</td>
+      <td><pre>{
+  name: string,
+  description: string; //optional
+  active: boolean;
+}</pre></td>
+      <td style="white-space: pre-line;">
+        <pre>{ 
+  name: "customer name", 
+  description: "A description of the customer",  
+  active: true, 
+}</pre>
+      <td style="white-space: pre-line;">
+        <pre>
+        {
+    "statusCode": 403,
+    "message": "Forbidden resource",
+    "error": "Forbidden"
+}
+  </pre>
+      <td>403 Unauthorized</td>
+    </tr>
   </tbody>
 </table>
 
-### Get all customers
+### List all customers
 
 ```http
   GET /api/customers //Busca todos os produtos existentes
@@ -148,6 +171,20 @@ $ npm run test:cov
       </td>
       <td>200 OK</td>
     </tr>
+    <tr>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
+      <td style="white-space: pre-line;">
+        <pre>
+        {
+    "statusCode": 403,
+    "message": "Forbidden resource",
+    "error": "Forbidden"
+}
+  </pre>
+      <td>403 Unauthorized</td>
+    </tr>
   </tbody>
 </table>
 
@@ -184,6 +221,34 @@ $ npm run test:cov
  </td>
       <td>200 OK</td>
     </tr>
+     <tr>
+      <td>customerId</td>
+      <td>string</td>
+      <td>--</td>
+      <td style="white-space: pre-line;">
+        <pre>
+        {
+    "statusCode": 404,
+    "message": "Cannot GET /customers/{id}",
+    "error": "Not Found"
+}
+  </pre>
+      <td>404 Not Found</td>
+    </tr>
+    <tr>
+      <td>customerId</td>
+      <td>string</td>
+      <td>--</td>
+      <td style="white-space: pre-line;">
+        <pre>
+        {
+    "statusCode": 403,
+    "message": "Forbidden resource",
+    "error": "Forbidden"
+}
+  </pre>
+      <td>403 Unauthorized</td>
+    </tr>
   </tbody>
 </table>
 
@@ -219,6 +284,51 @@ $ npm run test:cov
  </td>
       <td>--</td>
       <td>204 NO CONTENT</td>
+    </tr><tr>
+      <td>customerId</td>
+      <td>string</td>
+      <td style="white-space: pre-line;">
+        <pre>
+  { 
+    id: "f20fee7f-20bc-47fc-b2ea-14ca88a58e8b",
+    name: "updated customer", 
+    description: "A description of the customer",  
+    active: true, 
+    createdAt: "11-01-2022" 
+  }</pre>
+ </td>
+      <td style="white-space: pre-line;">
+        <pre>
+        {
+    "statusCode": 404,
+    "message": "Cannot UPDATE /customers/{id}",
+    "error": "Not Found"
+}
+  </pre>
+      <td>404 Not Found</td>
+    </tr>
+    <tr>
+      <td>customerId</td>
+      <td>string</td>
+      <td style="white-space: pre-line;">
+        <pre>
+  { 
+    id: "f20fee7f-20bc-47fc-b2ea-14ca88a58e8b",
+    name: "updated customer", 
+    description: "A description of the customer",  
+    active: true, 
+    createdAt: "11-01-2022" 
+  }</pre>
+ </td>
+      <td style="white-space: pre-line;">
+        <pre>
+        {
+    "statusCode": 403,
+    "message": "Forbidden resource",
+    "error": "Forbidden"
+}
+  </pre>
+      <td>403 Unauthorized</td>
     </tr>
   </tbody>
 </table>
@@ -246,6 +356,34 @@ $ npm run test:cov
       <td>--</td>
       <td>--</td>
       <td>204 NO CONTENT</td>
+    </tr>
+    <tr>
+      <td>customerId</td>
+      <td>string</td>
+      <td>--</td>
+      <td style="white-space: pre-line;">
+        <pre>
+        {
+    "statusCode": 404,
+    "message": "Cannot DELETE /customers/{id}",
+    "error": "Not Found"
+}
+  </pre>
+      <td>404 Not Found</td>
+    </tr>
+    <tr>
+      <td>customerId</td>
+      <td>string</td>
+      <td>--</td>
+      <td style="white-space: pre-line;">
+        <pre>
+        {
+    "statusCode": 403,
+    "message": "Forbidden resource",
+    "error": "Forbidden"
+}
+  </pre>
+      <td>403 Unauthorized</td>
     </tr>
   </tbody>
 </table>
