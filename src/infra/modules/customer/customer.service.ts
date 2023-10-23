@@ -8,7 +8,7 @@ import { CUSTOMER_MODEL } from 'src/infra/crosscutting/constants'
 export default class CustomerService {
   constructor(@Inject(CUSTOMER_MODEL) private readonly customerModel: Model<ICustomer>) {}
 
-  async findAll(): Promise<ICustomer[]> {
+  async findAll() {
     return this.customerModel.find().exec()
   }
 
@@ -17,7 +17,7 @@ export default class CustomerService {
     return createdCustomer.save()
   }
 
-  async deleteById(params: ICustomer): Promise<void> {
+  async deleteById(params: ICustomer) {
     await this.customerModel.deleteOne(params)
   }
 }
