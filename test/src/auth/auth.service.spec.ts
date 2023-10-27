@@ -1,6 +1,7 @@
 import { AuthService } from 'src/auth/auth.service'
 import { ForbiddenException } from '@nestjs/common'
 import { sign } from 'jsonwebtoken'
+import { RolesGuard } from 'src/auth/roles.guard.auth'
 
 describe('AuthService', () => {
   let authService: AuthService
