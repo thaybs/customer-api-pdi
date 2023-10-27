@@ -1,10 +1,6 @@
-import { IAddress, ICustomer } from 'src/domain/Customer'
+import { Customer } from 'src/domain/Customer'
+import { OmitType } from '@nestjs/mapped-types'
 
-export type ICreateCustomerParams = {
-  name: string
-  description?: string
-  active: boolean
-  address?: IAddress
-}
+export class CreateCustomerParams extends OmitType(Customer, ['id', 'createdAt', 'deletedAt'] as const) {}
 
-export type ICreateCustomerResponse = ICustomer
+export type CreateCustomerResponse = Customer

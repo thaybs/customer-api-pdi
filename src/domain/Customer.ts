@@ -1,19 +1,52 @@
-export interface ICustomer {
-  readonly id: string
-  readonly name: string
-  readonly document: string
-  readonly email: string
-  readonly phone: string
-  readonly address?: IAddress
-  readonly active: boolean
-  readonly createdAt: Date
-  readonly deletedAt?: Date
-}
+import {
+  IsString,
+  IsNotEmpty,
+  IsEmail,
+  IsPhoneNumber,
+  IsBoolean,
+  IsDate,
+  IsUUID,
+  ValidateNested,
+  MinLength,
+  MaxLength,
+  Length,
+} from 'class-validator'
+import { Type } from 'class-transformer'
+import { Address } from './Address'
 
-export interface IAddress {
-  postalCode: string
-  street: string
-  number: number
-  neighborhood: string
-  city: string
+export class Customer {
+  @IsUUID()
+  id: string
+
+  @IsString()
+  @IsNotEmpty()
+  @MinLength(3)
+  name: string
+
+  @IsString()
+  @IsNotEmpty()
+  @MinLength(11)
+  @MaxLength(14)
+  document: string
+
+  @IsString()
+  @IsEmail()
+  email: string
+
+  @IsString()
+  @Length(10, 11)
+  phone: string
+
+  @ValidateNested()
+  @Type(() => Address)
+  address: Address
+
+  @IsBoolean()
+  active: boolean
+
+  @IsDate()
+  createdAt: Date
+
+  @IsDate()
+  deletedAt?: Date
 }
