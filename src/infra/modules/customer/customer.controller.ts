@@ -1,30 +1,24 @@
-import { Controller, Get, Post, Body, Param, Delete, UseGuards, SetMetadata } from '@nestjs/common'
-import { ICreateCustomerParams } from 'src/api/customer/ICreateCustomer'
+import { Controller, Get, Post, Body, Param, Delete, UseGuards, SetMetadata, Patch } from '@nestjs/common'
+import { CreateCustomerParams } from 'src/api/customer/ICreateCustomer'
 import { CreateCustomerUseCase } from 'src/app/customer/create-customer-use-case'
+import { ListCustomerUseCase } from 'src/app/customer/list-customers-use-case'
 import { RolesGuard } from 'src/auth/roles.guard.auth'
-import { ICustomer } from 'src/domain/Customer'
-import CustomerService from 'src/infra/modules/customer/customer.service'
+import { Customer } from 'src/domain/Customer'
 
 @UseGuards(RolesGuard)
 @Controller('customers')
 export class CustomerController {
-  constructor(private service: CustomerService, private createCustomerUseCase: CreateCustomerUseCase) {}
+  constructor(private createCustomerUseCase: CreateCustomerUseCase, private listCustomerUseCase: ListCustomerUseCase) {}
 
   @Get()
-  @SetMetadata('roles', ['admin', 'user'])
-  async findAll(): Promise<ICustomer[]> {
-    return this.service.findAll()
+  @SetMetadata('roles', ['user'])
+  async findAll(): Promise<Customer[]> {
+    return this.listCustomerUseCase.execute()
   }
 
   @Post()
-  @SetMetadata('roles', ['admin', 'user'])
-  create(@Body() customer: ICreateCustomerParams): Promise<ICustomer> {
+  @SetMetadata('roles', ['user'])
+  create(@Body() customer: CreateCustomerParams): Promise<Customer> {
     return this.createCustomerUseCase.execute(customer)
-  }
-
-  @Delete('id')
-  @SetMetadata('roles', ['admin', 'user'])
-  async delete(@Param() customer: ICustomer): Promise<void> {
-    await this.service.deleteById(customer)
   }
 }
