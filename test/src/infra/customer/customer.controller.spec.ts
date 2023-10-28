@@ -1,3 +1,5 @@
+import 'reflect-metadata'
+
 import { Test, TestingModule } from '@nestjs/testing'
 import { CreateCustomerUseCase } from 'src/app/customer/create-customer-use-case'
 import { ListCustomerUseCase } from 'src/app/customer/list-customers-use-case'

@@ -1,3 +1,5 @@
+import 'reflect-metadata'
+
 import { Test, TestingModule } from '@nestjs/testing'
 import { CustomerModule } from 'src/infra/modules/customer/customer.module'
 
