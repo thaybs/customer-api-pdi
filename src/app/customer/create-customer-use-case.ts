@@ -1,15 +1,15 @@
-import { Injectable, Post, Body, Inject, PreconditionFailedException } from '@nestjs/common'
-import { Model } from 'mongoose'
+//create-customer-use-case.ts
+import { Injectable } from '@nestjs/common'
 import { CreateCustomerParams, CreateCustomerResponse } from 'src/api/customer/ICreateCustomer'
-import { CUSTOMER_MODEL } from 'src/infra/crosscutting/constants'
-import { Customer } from 'src/domain/Customer'
+import { CustomerService } from 'src/infra/modules/customer/customer.service'
 
 @Injectable()
 export class CreateCustomerUseCase {
-  constructor(@Inject(CUSTOMER_MODEL) private readonly customerModel: Model<Customer>) {}
-  execute(params: CreateCustomerParams): Promise<CreateCustomerResponse> {
-    const createdCustomer = new this.customerModel(params)
+  constructor(private readonly customerService: CustomerService) {}
 
-    return createdCustomer.save()
+  async execute(params: CreateCustomerParams): Promise<CreateCustomerResponse> {
+    const customer = await this.customerService.createCustomer(params)
+
+    return customer
   }
 }
