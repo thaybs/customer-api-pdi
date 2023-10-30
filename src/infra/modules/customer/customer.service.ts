@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common'
 import { Model } from 'mongoose'
 import { Customer } from 'src/domain/Customer'
-import { CustomerDocument } from 'src/infra/modules/customer/customer.model'
+import { CustomerDocument } from 'src/infra/modules/customer/schemas/customer.model'
 import { CreateCustomerParams } from 'src/api/customer/ICreateCustomer'
 import { CUSTOMER_MODEL } from 'src/infra/crosscutting/constants'
 
@@ -16,7 +16,7 @@ export class CustomerService {
     return savedCustomer.toObject()
   }
 
-  async findAllCustomer(): Promise<Customer[]> {
+  async findAllCustomers(): Promise<Customer[]> {
     return this.customerModel.find().exec()
   }
 }
