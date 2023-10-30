@@ -28,6 +28,7 @@ describe('Customer', () => {
     customer.active = true
     customer.createdAt = new Date()
     customer.deletedAt = new Date()
+    customer.updatedAt = new Date()
 
     const errors = await validate(customer)
     expect(errors.length).toEqual(0)

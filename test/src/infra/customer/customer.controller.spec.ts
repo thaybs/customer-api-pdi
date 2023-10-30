@@ -8,6 +8,7 @@ import { AuthService } from 'src/auth/auth.service'
 import { customerProviders } from 'src/infra/modules/customer/customer.providers'
 import { DatabaseModule } from 'src/infra/modules/database/database.module'
 import { createMockCustomer, mockCustomer } from './customer.mock'
+import { CustomerService } from 'src/infra/modules/customer/customer.service'
 
 describe('CustomerController', () => {
   let customerController: CustomerController
@@ -18,7 +19,7 @@ describe('CustomerController', () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [DatabaseModule],
       controllers: [CustomerController],
-      providers: [AuthService, CreateCustomerUseCase, ListCustomerUseCase, ...customerProviders],
+      providers: [AuthService, CustomerService, CreateCustomerUseCase, ListCustomerUseCase, ...customerProviders],
     }).compile()
 
     customerController = module.get<CustomerController>(CustomerController)
@@ -43,16 +44,17 @@ describe('CustomerController', () => {
       const createdCustomer = await customerController.create(createMockCustomer)
 
       expect(createdCustomer).toBe(mockCustomer)
-      expect(createdCustomer.name).toBe('João das Couves')
-      expect(createdCustomer.document).toBe('12345678910')
-      expect(createdCustomer.email).toBe('email@email.com')
-      expect(createdCustomer.phone).toBe('21-987654321')
-      expect(createdCustomer.active).toBe(true)
-      expect(createdCustomer.address.city).toBe('Cidadezinha')
-      expect(createdCustomer.address.neighborhood).toBe('Centro')
-      expect(createdCustomer.address.street).toBe('Rua das Flores')
-      expect(createdCustomer.address.number).toBe(42)
-      expect(createdCustomer.address.postalCode).toBe('12345123')
+      expect(createdCustomer.name).toBe(createMockCustomer.name)
+      expect(createdCustomer.document).toBe(createMockCustomer.document)
+      expect(createdCustomer.email).toBe(createMockCustomer.email)
+      expect(createdCustomer.phone).toBe(createMockCustomer.phone)
+      expect(createdCustomer.active).toBe(createMockCustomer.active)
+      expect(createdCustomer.address).toBe(createMockCustomer.address)
+      expect(createdCustomer.address.city).toBe(createMockCustomer.address.city)
+      expect(createdCustomer.address.street).toBe(createMockCustomer.address.street)
+      expect(createdCustomer.address.number).toBe(createMockCustomer.address.number)
+      expect(createdCustomer.address.neighborhood).toBe(createMockCustomer.address.neighborhood)
+      expect(createdCustomer.address.postalCode).toBe(createMockCustomer.address.postalCode)
     })
   })
 })

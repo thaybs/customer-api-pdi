@@ -23,4 +23,6 @@ export const mockCustomer: Customer = {
   id: '7ada6eeb-fc6e-402e-bcfa-45a9497e6b9e',
   ...createMockCustomer,
   createdAt: new Date(),
+  updatedAt: new Date(),
+  deletedAt: null,
 }
