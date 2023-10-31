@@ -1,18 +1,22 @@
 import { Inject, Injectable } from '@nestjs/common'
 import { Model } from 'mongoose'
-import { ICreateCustomerParams, ICreateCustomerResponse } from 'src/api/customer/ICreateCustomer'
-import { ICustomer } from 'src/domain/Customer'
+import { Customer } from 'src/domain/Customer'
+import { CustomerDocument } from 'src/infra/modules/customer/schemas/customer.model'
+import { CreateCustomerParams } from 'src/api/customer/ICreateCustomer'
 import { CUSTOMER_MODEL } from 'src/infra/crosscutting/constants'
 
 @Injectable()
-export default class CustomerService {
-  constructor(@Inject(CUSTOMER_MODEL) private readonly customerModel: Model<ICustomer>) {}
+export class CustomerService {
+  constructor(@Inject(CUSTOMER_MODEL) private readonly customerModel: Model<CustomerDocument>) {}
 
-  async findAll() {
-    return this.customerModel.find().exec()
+  async createCustomer(params: CreateCustomerParams): Promise<Customer> {
+    const customer = new this.customerModel(params)
+    const savedCustomer = await customer.save()
+
+    return savedCustomer.toObject()
   }
 
-  async deleteById(params: ICustomer) {
-    await this.customerModel.deleteOne(params)
+  async findAllCustomers(): Promise<Customer[]> {
+    return this.customerModel.find().exec()
   }
 }

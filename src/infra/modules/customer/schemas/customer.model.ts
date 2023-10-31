@@ -1,6 +1,7 @@
-import * as mongoose from 'mongoose'
-import { Schema } from 'mongoose'
+import mongoose, { Document, Schema } from 'mongoose'
+import { Customer } from 'src/domain/Customer'
 import { v4 as uuidv4 } from 'uuid'
+import { CUSTOMER_MODEL } from 'src/infra/crosscutting/constants'
 
 export const CustomerSchema = new mongoose.Schema(
   {
@@ -38,3 +39,7 @@ CustomerSchema.method('toJSON', function () {
   const { _id, ...object } = this.toObject()
   return object
 })
+
+export const CustomerModel = mongoose.model(CUSTOMER_MODEL, CustomerSchema)
+
+export type CustomerDocument = Document & Customer

@@ -1,6 +1,6 @@
 import { Connection } from 'mongoose'
 import { CUSTOMER_MODEL, DATABASE_CONNECTION, CUSTOMER_NAME } from 'src/infra/crosscutting/constants'
-import { CustomerSchema } from './schemas/customer.schema'
+import { CustomerSchema } from './schemas/customer.model'
 
 export const customerProviders = [
   {
