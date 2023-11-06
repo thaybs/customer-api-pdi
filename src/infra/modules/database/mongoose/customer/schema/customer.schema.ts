@@ -1,7 +1,7 @@
 import mongoose, { Document, Schema } from 'mongoose'
-import { Customer } from 'src/domain/Customer'
 import { v4 as uuidv4 } from 'uuid'
 import { CUSTOMER_MODEL } from 'src/infra/crosscutting/constants'
+import { Customer } from 'src/domain/customer/entities/Customer'
 
 export const CustomerSchema = new mongoose.Schema(
   {
@@ -24,7 +24,7 @@ export const CustomerSchema = new mongoose.Schema(
         },
       ),
     ],
-    active: { type: Boolean, required: true, nullable: false },
+    active: { type: Boolean, required: false, nullable: false },
     createdAt: { type: Date, required: false, nullable: false },
     deletedAt: { type: Date, required: false, nullable: true },
     updatedAt: { type: Date, required: false, nullable: true },
