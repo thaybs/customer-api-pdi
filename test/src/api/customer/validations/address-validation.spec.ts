@@ -1,11 +1,11 @@
 import 'reflect-metadata'
 
 import { validate } from 'class-validator'
-import { Address } from 'src/domain/Address'
+import { AddressValidation } from 'src/api/customer/validations/address-validation'
 
-describe('Address', () => {
+describe('AddressValidation', () => {
   it('should not accept invalid data', async () => {
-    const address = new Address()
+    const address = new AddressValidation()
     address.street = ''
     address.city = 'City'
     address.postalCode = '12345-6782'
@@ -17,7 +17,7 @@ describe('Address', () => {
   })
 
   it('should accept valid data', async () => {
-    const address = new Address()
+    const address = new AddressValidation()
     address.street = 'Rua das Rosas'
     address.city = 'Cidade'
     address.postalCode = '12345672'
