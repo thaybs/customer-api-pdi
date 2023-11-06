@@ -1,9 +1,10 @@
-import { Controller, Get, Post, Body, Param, Delete, UseGuards, SetMetadata, Patch } from '@nestjs/common'
-import { CreateCustomerParams } from 'src/api/customer/ICreateCustomer'
+import { Controller, Get, Post, Body, Param, Delete, UseGuards, SetMetadata, Patch, Query } from '@nestjs/common'
+import { ListCustomerDto, ListCustomerResponse } from 'src/api/customer/list-customer-dto'
+import { CreateCustomerValidation } from 'src/api/customer/validations/create-customer-validation'
 import { CreateCustomerUseCase } from 'src/app/customer/create-customer-use-case'
 import { ListCustomerUseCase } from 'src/app/customer/list-customers-use-case'
-import { RolesGuard } from 'src/auth/roles.guard.auth'
-import { Customer } from 'src/domain/Customer'
+import { Customer } from 'src/domain/customer/entities/Customer'
+import { RolesGuard } from 'src/infra/auth/roles.guard.auth'
 
 @UseGuards(RolesGuard)
 @Controller('customers')
@@ -12,13 +13,13 @@ export class CustomerController {
 
   @Get()
   @SetMetadata('roles', ['user'])
-  async findAll(): Promise<Customer[]> {
-    return this.listCustomerUseCase.execute()
+  async findAll(@Query() query: ListCustomerDto): Promise<ListCustomerResponse> {
+    return this.listCustomerUseCase.execute(query)
   }
 
   @Post()
   @SetMetadata('roles', ['user'])
-  create(@Body() customer: CreateCustomerParams): Promise<Customer> {
+  create(@Body() customer: CreateCustomerValidation): Promise<Customer> {
     return this.createCustomerUseCase.execute(customer)
   }
 }
