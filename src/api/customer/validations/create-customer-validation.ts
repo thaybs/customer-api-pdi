@@ -1,6 +1,6 @@
 import { Prop } from '@nestjs/mongoose'
 import { Type } from 'class-transformer'
-import { IsBoolean, IsEmail, IsNotEmpty, IsString, Length, Matches, MinLength, ValidateNested } from 'class-validator'
+import { IsEmail, IsNotEmpty, IsString, Length, Matches, MinLength, ValidateNested } from 'class-validator'
 import { IsCPF } from 'class-validator-cpf'
 import { AddressValidation } from './address-validation'
 

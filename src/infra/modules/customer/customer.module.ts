@@ -7,7 +7,8 @@ import { ListCustomerUseCase } from 'src/app/customer/list-customers-use-case'
 import { CUSTOMER_MODEL } from 'src/infra/crosscutting/constants'
 import { CustomerModel } from '../database/mongoose/customer/schema/customer.schema'
 import { AuthService } from 'src/infra/auth/auth.service'
-import { CustomerService } from '../database/mongoose/customer/customer.service'
+import MongooseRepository from '../database/mongoose/mongoose.repository'
+import { Model } from 'mongoose'
 
 @Module({
   imports: [DatabaseModule],
@@ -17,8 +18,12 @@ import { CustomerService } from '../database/mongoose/customer/customer.service'
       provide: CUSTOMER_MODEL,
       useValue: CustomerModel,
     },
+    {
+      provide: Model,
+      useValue: CustomerModel,
+    },
+    MongooseRepository,
     AuthService,
-    CustomerService,
     CreateCustomerUseCase,
     ListCustomerUseCase,
     ...customerProviders,

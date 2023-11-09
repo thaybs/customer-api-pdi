@@ -8,7 +8,9 @@ import { customerProviders } from 'src/infra/modules/customer/customer.providers
 import { DatabaseModule } from 'src/infra/modules/database/database.module'
 import { createMockCustomer, mockCustomer } from './customer.mock'
 import { AuthService } from 'src/infra/auth/auth.service'
-import { CustomerService } from 'src/infra/modules/database/mongoose/customer/customer.service'
+import MongooseRepository from 'src/infra/modules/database/mongoose/mongoose.repository'
+import { Model } from 'mongoose'
+import { CustomerModel } from 'src/infra/modules/database/mongoose/customer/schema/customer.schema'
 
 describe('CustomerController', () => {
   let customerController: CustomerController
@@ -19,7 +21,17 @@ describe('CustomerController', () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [DatabaseModule],
       controllers: [CustomerController],
-      providers: [AuthService, CustomerService, CreateCustomerUseCase, ListCustomerUseCase, ...customerProviders],
+      providers: [
+        {
+          provide: Model,
+          useValue: CustomerModel,
+        },
+        AuthService,
+        MongooseRepository,
+        CreateCustomerUseCase,
+        ListCustomerUseCase,
+        ...customerProviders,
+      ],
     }).compile()
 
     customerController = module.get<CustomerController>(CustomerController)
@@ -29,11 +41,14 @@ describe('CustomerController', () => {
 
   describe('findAll', () => {
     it('should return an array of customers', async () => {
-      jest.spyOn(listCustomerUseCase, 'execute').mockResolvedValueOnce([mockCustomer])
+      jest.spyOn(listCustomerUseCase, 'execute').mockResolvedValueOnce({ page: 1, pageSize: 10, data: [mockCustomer] })
 
-      const listCustomers = await customerController.findAll()
-
-      expect(listCustomers).toEqual([mockCustomer])
+      const listCustomers = await customerController.findAll({
+        page: 1,
+        pageSize: 10,
+        filter: { name: '', document: '' },
+      })
+      expect(listCustomers).toEqual({ page: 1, pageSize: 10, data: [mockCustomer] })
     })
   })
 
