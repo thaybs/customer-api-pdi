@@ -28,7 +28,6 @@ export default class MongooseRepository<T extends Document> {
 
   async findAllWithPaginationAndFilters(filters: FilterQuery<T>, page: number, pageSize: number): Promise<T[]> {
     const skip = (page - 1) * pageSize
-    console.log('3º mongoose', filters)
     return this.model.find(filters).skip(skip).limit(pageSize).exec()
   }
 

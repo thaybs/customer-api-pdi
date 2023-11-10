@@ -8,3 +8,5 @@ export class CreateCustomerDto extends OmitType(Customer, [
   'updatedAt',
   'deletedAt',
 ] as const) {}
+
+export type CreateCustomerResponse = Customer
