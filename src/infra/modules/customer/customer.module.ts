@@ -9,6 +9,7 @@ import { CustomerModel } from '../database/mongoose/customer/schema/customer.sch
 import { AuthService } from 'src/infra/auth/auth.service'
 import MongooseRepository from '../database/mongoose/mongoose.repository'
 import { Model } from 'mongoose'
+import { GetCustomerByIdUseCase } from 'src/app/customer/get-customer-by-id-use-case'
 
 @Module({
   imports: [DatabaseModule],
@@ -26,6 +27,7 @@ import { Model } from 'mongoose'
     AuthService,
     CreateCustomerUseCase,
     ListCustomerUseCase,
+    GetCustomerByIdUseCase,
     ...customerProviders,
   ],
 })
