@@ -1,5 +1,6 @@
 import { AddressValidation } from 'src/api/customer/validations/address-validation'
 import { CreateCustomerValidation } from 'src/api/customer/validations/create-customer-validation'
+import { GetCustomerByIdValidation } from 'src/api/customer/validations/get-customer-by-id-validation'
 import { Customer } from 'src/domain/customer/entities/Customer'
 
 export const createMockAddress: AddressValidation = {
@@ -25,4 +26,8 @@ export const mockCustomer: Customer = {
   createdAt: new Date(),
   updatedAt: new Date(),
   deletedAt: null,
+}
+
+export const getMockCustomerById: GetCustomerByIdValidation = {
+  id: '7ada6eeb-fc6e-402e-bcfa-45a9497e6b9e',
 }

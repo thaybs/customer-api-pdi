@@ -3,7 +3,7 @@ import 'reflect-metadata'
 import { validate } from 'class-validator'
 import { CreateCustomerValidation } from 'src/api/customer/validations/create-customer-validation'
 
-describe('Customer', () => {
+describe('CreateCustomerValidation', () => {
   it('should not accept invalid data', async () => {
     const customer = new CreateCustomerValidation()
     customer.name = 'A'

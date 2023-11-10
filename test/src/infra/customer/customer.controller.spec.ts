@@ -6,16 +6,19 @@ import { ListCustomerUseCase } from 'src/app/customer/list-customers-use-case'
 import { CustomerController } from 'src/infra/modules/customer/customer.controller'
 import { customerProviders } from 'src/infra/modules/customer/customer.providers'
 import { DatabaseModule } from 'src/infra/modules/database/database.module'
-import { createMockCustomer, mockCustomer } from './customer.mock'
 import { AuthService } from 'src/infra/auth/auth.service'
 import MongooseRepository from 'src/infra/modules/database/mongoose/mongoose.repository'
 import { Model } from 'mongoose'
 import { CustomerModel } from 'src/infra/modules/database/mongoose/customer/schema/customer.schema'
+import { GetCustomerByIdUseCase } from 'src/app/customer/get-customer-by-id-use-case'
+import { GetCustomerByIdValidation } from 'src/api/customer/validations/get-customer-by-id-validation'
+import { mockCustomer, createMockCustomer, getMockCustomerById } from 'test/src/customer.mock'
 
 describe('CustomerController', () => {
   let customerController: CustomerController
   let createCustomerUseCase: CreateCustomerUseCase
   let listCustomerUseCase: ListCustomerUseCase
+  let getCustomerByIdUseCase: GetCustomerByIdUseCase
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -30,6 +33,7 @@ describe('CustomerController', () => {
         MongooseRepository,
         CreateCustomerUseCase,
         ListCustomerUseCase,
+        GetCustomerByIdUseCase,
         ...customerProviders,
       ],
     }).compile()
@@ -37,6 +41,7 @@ describe('CustomerController', () => {
     customerController = module.get<CustomerController>(CustomerController)
     createCustomerUseCase = module.get<CreateCustomerUseCase>(CreateCustomerUseCase)
     listCustomerUseCase = module.get<ListCustomerUseCase>(ListCustomerUseCase)
+    getCustomerByIdUseCase = module.get<GetCustomerByIdUseCase>(GetCustomerByIdUseCase)
   })
 
   describe('findAll', () => {
@@ -59,6 +64,16 @@ describe('CustomerController', () => {
       const createdCustomer = await customerController.create(createMockCustomer)
 
       expect(createdCustomer).toBe(mockCustomer)
+    })
+  })
+
+  describe('getById', () => {
+    it('should create a new customer', async () => {
+      jest.spyOn(getCustomerByIdUseCase, 'execute').mockImplementation(() => Promise.resolve(mockCustomer))
+
+      const customer = await customerController.getById(getMockCustomerById)
+
+      expect(customer).toBe(mockCustomer)
     })
   })
 })
