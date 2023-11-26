@@ -1,6 +1,6 @@
-import { AddressValidation } from 'src/api/customer/validations/address-validation'
-import { CreateCustomerValidation } from 'src/api/customer/validations/create-customer-validation'
-import { GetCustomerByIdValidation } from 'src/api/customer/validations/get-customer-by-id-validation'
+import { AddressValidation } from 'src/api/customer/dto/address-validation'
+import { CreateCustomerValidation } from 'src/api/customer/dto/create-customer-dto'
+import { GetCustomerByIdValidation } from 'src/api/customer/dto/get-customer-by-id-dto'
 import { Customer } from 'src/domain/customer/entities/Customer'
 
 export const createMockAddress: AddressValidation = {
@@ -25,7 +25,6 @@ export const mockCustomer: Customer = {
   active: true,
   createdAt: new Date(),
   updatedAt: new Date(),
-  deletedAt: null,
 }
 
 export const getMockCustomerById: GetCustomerByIdValidation = {

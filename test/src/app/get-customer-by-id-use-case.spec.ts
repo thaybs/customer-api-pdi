@@ -2,8 +2,8 @@ import { Model } from 'mongoose'
 import { CustomerDocument } from 'src/infra/modules/database/mongoose/customer/schema/customer.schema'
 import MongooseRepository from 'src/infra/modules/database/mongoose/mongoose.repository'
 import { GetCustomerByIdUseCase } from 'src/app/customer/get-customer-by-id-use-case'
-import { getMockCustomerById, mockCustomer } from '../customer.mock'
 import { NotFoundException } from '@nestjs/common'
+import { mockCustomer, getMockCustomerById } from '../infra/customer/customer.mock'
 
 describe('GetCustomerByIdUseCase', () => {
   let getCustomerByIdUseCase: GetCustomerByIdUseCase

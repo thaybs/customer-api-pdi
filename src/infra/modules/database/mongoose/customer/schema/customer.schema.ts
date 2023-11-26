@@ -26,7 +26,6 @@ export const CustomerSchema = new mongoose.Schema(
     ],
     active: { type: Boolean, required: false, nullable: false },
     createdAt: { type: Date, required: false, nullable: false },
-    deletedAt: { type: Date, required: false, nullable: true },
     updatedAt: { type: Date, required: false, nullable: true },
   },
   {
