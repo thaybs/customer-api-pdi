@@ -27,6 +27,6 @@ export const mockCustomer: Customer = {
   updatedAt: new Date(),
 }
 
-export const getMockCustomerById: GetCustomerByIdValidation = {
+export const idMockCustomer: GetCustomerByIdValidation = {
   id: '7ada6eeb-fc6e-402e-bcfa-45a9497e6b9e',
 }

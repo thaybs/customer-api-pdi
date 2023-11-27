@@ -1,11 +1,13 @@
-import { Controller, Get, Post, Body, Param, Delete, UseGuards, SetMetadata, Patch, Query } from '@nestjs/common'
-import { CreateCustomerResponse } from 'src/api/customer/create-customer-dto'
-import { ListCustomerDto, ListCustomerResponse } from 'src/api/customer/list-customer-dto'
-import { CreateCustomerValidation } from 'src/api/customer/validations/create-customer-validation'
-import { GetCustomerByIdValidation } from 'src/api/customer/validations/get-customer-by-id-validation'
+import { Controller, Get, Post, Body, Param, Delete, UseGuards, SetMetadata, Query } from '@nestjs/common'
+import { CreateCustomerValidation } from 'src/api/customer/dto/create-customer-dto'
+import { DeleteCustomerByIdValidation } from 'src/api/customer/dto/delete-customer-by-id-dto'
+import { GetCustomerByIdValidation } from 'src/api/customer/dto/get-customer-by-id-dto'
+import { ListCustomerDto, ListCustomerResponse } from 'src/api/customer/dto/list-customer-dto'
 import { CreateCustomerUseCase } from 'src/app/customer/create-customer-use-case'
+import { DeleteCustomerByIdUseCase } from 'src/app/customer/delete-customer-by-id-use-case'
 import { GetCustomerByIdUseCase } from 'src/app/customer/get-customer-by-id-use-case'
 import { ListCustomerUseCase } from 'src/app/customer/list-customers-use-case'
+import { Customer } from 'src/domain/customer/entities/Customer'
 import { RolesGuard } from 'src/infra/auth/roles.guard.auth'
 
 @UseGuards(RolesGuard)
@@ -15,6 +17,7 @@ export class CustomerController {
     private createCustomerUseCase: CreateCustomerUseCase,
     private listCustomerUseCase: ListCustomerUseCase,
     private getCustomerByIdUseCase: GetCustomerByIdUseCase,
+    private deleteCustomerByIdUseCase: DeleteCustomerByIdUseCase,
   ) {}
 
   @Get()
@@ -25,13 +28,19 @@ export class CustomerController {
 
   @Post()
   @SetMetadata('roles', ['user'])
-  create(@Body() params: CreateCustomerValidation): Promise<CreateCustomerResponse> {
+  create(@Body() params: CreateCustomerValidation): Promise<Customer> {
     return this.createCustomerUseCase.execute(params)
   }
 
   @Get(':id')
   @SetMetadata('roles', ['user'])
-  getById(@Param() params: GetCustomerByIdValidation): Promise<GetCustomerByIdValidation> {
+  getById(@Param() params: GetCustomerByIdValidation): Promise<Customer> {
     return this.getCustomerByIdUseCase.execute(params)
+  }
+
+  @Delete(':id')
+  @SetMetadata('roles', ['user'])
+  async delete(@Param() params: DeleteCustomerByIdValidation): Promise<void> {
+    await this.deleteCustomerByIdUseCase.execute(params)
   }
 }

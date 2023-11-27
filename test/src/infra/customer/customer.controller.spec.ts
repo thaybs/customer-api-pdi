@@ -11,14 +11,18 @@ import MongooseRepository from 'src/infra/modules/database/mongoose/mongoose.rep
 import { Model } from 'mongoose'
 import { CustomerModel } from 'src/infra/modules/database/mongoose/customer/schema/customer.schema'
 import { GetCustomerByIdUseCase } from 'src/app/customer/get-customer-by-id-use-case'
-import { GetCustomerByIdValidation } from 'src/api/customer/validations/get-customer-by-id-validation'
-import { mockCustomer, createMockCustomer, getMockCustomerById } from 'test/src/customer.mock'
+import { mockCustomer, createMockCustomer, idMockCustomer } from './customer.mock'
+import { UpdateCustomerUseCase } from 'src/app/customer/update-customer-use-case '
+import { DeleteCustomerByIdUseCase } from 'src/app/customer/delete-customer-by-id-use-case'
+import { CustomerRepository } from 'src/infra/data/model/customer.repository'
 
 describe('CustomerController', () => {
   let customerController: CustomerController
   let createCustomerUseCase: CreateCustomerUseCase
   let listCustomerUseCase: ListCustomerUseCase
   let getCustomerByIdUseCase: GetCustomerByIdUseCase
+  let updateCustomerUseCase: UpdateCustomerUseCase
+  let deleteCustomerByIdUseCase: DeleteCustomerByIdUseCase
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -34,6 +38,9 @@ describe('CustomerController', () => {
         CreateCustomerUseCase,
         ListCustomerUseCase,
         GetCustomerByIdUseCase,
+        UpdateCustomerUseCase,
+        DeleteCustomerByIdUseCase,
+        CustomerRepository,
         ...customerProviders,
       ],
     }).compile()
@@ -42,6 +49,8 @@ describe('CustomerController', () => {
     createCustomerUseCase = module.get<CreateCustomerUseCase>(CreateCustomerUseCase)
     listCustomerUseCase = module.get<ListCustomerUseCase>(ListCustomerUseCase)
     getCustomerByIdUseCase = module.get<GetCustomerByIdUseCase>(GetCustomerByIdUseCase)
+    updateCustomerUseCase = module.get<UpdateCustomerUseCase>(UpdateCustomerUseCase)
+    deleteCustomerByIdUseCase = module.get<DeleteCustomerByIdUseCase>(DeleteCustomerByIdUseCase)
   })
 
   describe('findAll', () => {
@@ -68,12 +77,22 @@ describe('CustomerController', () => {
   })
 
   describe('getById', () => {
-    it('should create a new customer', async () => {
+    it('should get a customer by Id', async () => {
       jest.spyOn(getCustomerByIdUseCase, 'execute').mockImplementation(() => Promise.resolve(mockCustomer))
 
-      const customer = await customerController.getById(getMockCustomerById)
+      const customer = await customerController.getById(idMockCustomer)
 
       expect(customer).toBe(mockCustomer)
+    })
+  })
+
+  describe('deleteById', () => {
+    it('should create a new customer', async () => {
+      jest.spyOn(deleteCustomerByIdUseCase, 'execute').mockResolvedValueOnce()
+
+      const customer = await customerController.delete(idMockCustomer)
+
+      expect(customer).toBeUndefined()
     })
   })
 })

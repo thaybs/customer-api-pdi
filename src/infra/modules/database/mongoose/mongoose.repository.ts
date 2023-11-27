@@ -32,6 +32,6 @@ export default class MongooseRepository<T extends Document> {
   }
 
   async delete(id: string): Promise<void> {
-    await this.model.findByIdAndDelete(id).exec()
+    await this.model.deleteOne({ id: id }).exec()
   }
 }
