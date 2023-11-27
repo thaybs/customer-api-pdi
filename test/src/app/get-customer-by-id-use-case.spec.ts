@@ -3,7 +3,7 @@ import { CustomerDocument } from 'src/infra/modules/database/mongoose/customer/s
 import MongooseRepository from 'src/infra/modules/database/mongoose/mongoose.repository'
 import { GetCustomerByIdUseCase } from 'src/app/customer/get-customer-by-id-use-case'
 import { NotFoundException } from '@nestjs/common'
-import { mockCustomer, getMockCustomerById } from '../infra/customer/customer.mock'
+import { mockCustomer, idMockCustomer } from '../infra/customer/customer.mock'
 
 describe('GetCustomerByIdUseCase', () => {
   let getCustomerByIdUseCase: GetCustomerByIdUseCase
@@ -22,7 +22,7 @@ describe('GetCustomerByIdUseCase', () => {
   it('should get a customer by its id', async () => {
     jest.spyOn(mongooseRepository, 'findOne').mockResolvedValue(mockCustomer as CustomerDocument)
 
-    const customer = await getCustomerByIdUseCase.execute(getMockCustomerById)
+    const customer = await getCustomerByIdUseCase.execute(idMockCustomer)
 
     expect(mongooseRepository.findOne).toBeCalled()
     expect(customer).toBe(mockCustomer)
@@ -32,7 +32,7 @@ describe('GetCustomerByIdUseCase', () => {
     jest.spyOn(mongooseRepository, 'findOne').mockResolvedValue(null)
 
     try {
-      await getCustomerByIdUseCase.execute(getMockCustomerById)
+      await getCustomerByIdUseCase.execute(idMockCustomer)
     } catch (error) {
       expect(error).toBeInstanceOf(NotFoundException)
       expect(error.message).toBe('Customer not found!')

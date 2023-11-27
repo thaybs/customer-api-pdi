@@ -1,7 +1,7 @@
 import 'reflect-metadata'
 
 import { validate } from 'class-validator'
-import { CreateCustomerValidation } from 'src/api/customer/validations/create-customer-validation'
+import { CreateCustomerValidation } from 'src/api/customer/dto/create-customer-dto'
 
 describe('CreateCustomerValidation', () => {
   it('should not accept invalid data', async () => {
