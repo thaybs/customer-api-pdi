@@ -18,11 +18,12 @@ export class ListCustomerUseCase {
 
     let filteredCustomers: Customer[]
 
-    if (filter) {
+    if (filter?.name || filter?.document) {
       filteredCustomers = await this.customerRepository.findAllByNamePartialMatch(params)
     } else {
       filteredCustomers = await this.mongooseRepository.findAllWithPaginationAndFilters(filter, page, pageSize)
     }
+
     return { page, pageSize, data: filteredCustomers }
   }
 }

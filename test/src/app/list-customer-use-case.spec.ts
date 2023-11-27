@@ -2,12 +2,14 @@ import { Model } from 'mongoose'
 import { CustomerDocument } from 'src/infra/modules/database/mongoose/customer/schema/customer.schema'
 import MongooseRepository from 'src/infra/modules/database/mongoose/mongoose.repository'
 import { ListCustomerUseCase } from 'src/app/customer/list-customers-use-case'
-import { mockCustomer } from '../customer.mock'
+import { mockCustomer } from '../infra/customer/customer.mock'
+import { CustomerRepository } from 'src/infra/data/model/customer.repository'
 
 describe('ListCustomerUseCase', () => {
   let listCustomerUseCase: ListCustomerUseCase
   let mongooseRepository: MongooseRepository<CustomerDocument>
   let customerModel: Model<CustomerDocument>
+  let customerRepository: CustomerRepository
   beforeEach(() => {
     customerModel = {
       findAllWithPaginationAndFilters: jest.fn(),
@@ -16,7 +18,7 @@ describe('ListCustomerUseCase', () => {
 
     mongooseRepository = new MongooseRepository(customerModel)
 
-    listCustomerUseCase = new ListCustomerUseCase(mongooseRepository, customerModel)
+    listCustomerUseCase = new ListCustomerUseCase(mongooseRepository, customerRepository)
   })
 
   it('should return a list of customers with NO filters', async () => {
@@ -39,14 +41,12 @@ describe('ListCustomerUseCase', () => {
   it('should return a list of customers with filters', async () => {
     const mockCustomers = [mockCustomer]
 
-    listCustomerUseCase.findAllByNamePartialMatch = jest.fn(async (params) => {
-      return mockCustomers
-    })
+    jest.spyOn(customerRepository, 'findAllByNamePartialMatch').mockResolvedValueOnce(mockCustomers)
 
-    const params = { page: 1, pageSize: 10, filter: { name: 'João', document: '' } }
+    const params = { page: 1, pageSize: 10, filter: { name: '', document: '' } }
     const result = await listCustomerUseCase.execute(params)
 
-    expect(listCustomerUseCase.findAllByNamePartialMatch).toHaveBeenCalledWith(params)
+    expect(customerRepository.findAllByNamePartialMatch).toHaveBeenCalledWith(params)
 
     expect(result.page).toBe(params.page)
     expect(result.pageSize).toBe(params.pageSize)
