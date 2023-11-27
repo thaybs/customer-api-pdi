@@ -1,12 +1,14 @@
-import { Controller, Get, Post, Body, Param, Delete, UseGuards, SetMetadata, Query } from '@nestjs/common'
+import { Controller, Get, Post, Body, Param, Delete, UseGuards, SetMetadata, Patch, Query, Put } from '@nestjs/common'
 import { CreateCustomerValidation } from 'src/api/customer/dto/create-customer-dto'
 import { DeleteCustomerByIdValidation } from 'src/api/customer/dto/delete-customer-by-id-dto'
 import { GetCustomerByIdValidation } from 'src/api/customer/dto/get-customer-by-id-dto'
 import { ListCustomerDto, ListCustomerResponse } from 'src/api/customer/dto/list-customer-dto'
+import { UpdateCustomerValidation } from 'src/api/customer/dto/update-customer-dto'
 import { CreateCustomerUseCase } from 'src/app/customer/create-customer-use-case'
 import { DeleteCustomerByIdUseCase } from 'src/app/customer/delete-customer-by-id-use-case'
 import { GetCustomerByIdUseCase } from 'src/app/customer/get-customer-by-id-use-case'
 import { ListCustomerUseCase } from 'src/app/customer/list-customers-use-case'
+import { UpdateCustomerUseCase } from 'src/app/customer/update-customer-use-case '
 import { Customer } from 'src/domain/customer/entities/Customer'
 import { RolesGuard } from 'src/infra/auth/roles.guard.auth'
 
@@ -17,6 +19,7 @@ export class CustomerController {
     private createCustomerUseCase: CreateCustomerUseCase,
     private listCustomerUseCase: ListCustomerUseCase,
     private getCustomerByIdUseCase: GetCustomerByIdUseCase,
+    private updateCustomerUseCase: UpdateCustomerUseCase,
     private deleteCustomerByIdUseCase: DeleteCustomerByIdUseCase,
   ) {}
 
@@ -36,6 +39,12 @@ export class CustomerController {
   @SetMetadata('roles', ['user'])
   getById(@Param() params: GetCustomerByIdValidation): Promise<Customer> {
     return this.getCustomerByIdUseCase.execute(params)
+  }
+
+  @Put(':id')
+  @SetMetadata('roles', ['user'])
+  async update(@Param('id') id: string, @Body() params: UpdateCustomerValidation): Promise<Customer> {
+    return this.updateCustomerUseCase.execute(id, params)
   }
 
   @Delete(':id')

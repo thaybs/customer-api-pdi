@@ -11,10 +11,10 @@ import MongooseRepository from 'src/infra/modules/database/mongoose/mongoose.rep
 import { Model } from 'mongoose'
 import { CustomerModel } from 'src/infra/modules/database/mongoose/customer/schema/customer.schema'
 import { GetCustomerByIdUseCase } from 'src/app/customer/get-customer-by-id-use-case'
-import { mockCustomer, createMockCustomer, idMockCustomer } from './customer.mock'
 import { UpdateCustomerUseCase } from 'src/app/customer/update-customer-use-case '
 import { DeleteCustomerByIdUseCase } from 'src/app/customer/delete-customer-by-id-use-case'
 import { CustomerRepository } from 'src/infra/data/model/customer.repository'
+import { createMockCustomer, idMockCustomer, mockCustomer, updateMockCustomer } from './customer.mock'
 
 describe('CustomerController', () => {
   let customerController: CustomerController
@@ -93,6 +93,16 @@ describe('CustomerController', () => {
       const customer = await customerController.delete(idMockCustomer)
 
       expect(customer).toBeUndefined()
+    })
+  })
+
+  describe('update', () => {
+    it('should update a customer', async () => {
+      jest.spyOn(updateCustomerUseCase, 'execute').mockImplementation(() => Promise.resolve(mockCustomer))
+
+      const updatedCustomer = await customerController.update(mockCustomer.id, updateMockCustomer)
+
+      expect(updatedCustomer).toBe(mockCustomer)
     })
   })
 })

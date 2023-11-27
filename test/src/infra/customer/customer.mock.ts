@@ -1,9 +1,10 @@
 import { AddressValidation } from 'src/api/customer/dto/address-validation'
 import { CreateCustomerValidation } from 'src/api/customer/dto/create-customer-dto'
 import { GetCustomerByIdValidation } from 'src/api/customer/dto/get-customer-by-id-dto'
+import { UpdateCustomerValidation } from 'src/api/customer/dto/update-customer-dto'
 import { Customer } from 'src/domain/customer/entities/Customer'
 
-export const createMockAddress: AddressValidation = {
+export const mockAddressParams: AddressValidation = {
   postalCode: '12345123',
   street: 'Rua das Flores',
   number: 42,
@@ -11,17 +12,20 @@ export const createMockAddress: AddressValidation = {
   city: 'Cidadezinha',
 }
 
-export const createMockCustomer: CreateCustomerValidation = {
+export const mockCustomerParams = {
+  id: '7ada6eeb-fc6e-402e-bcfa-45a9497e6b9e',
   name: 'João das Couves',
   document: '12345678910',
   email: 'email@email.com',
   phone: '21-987654321',
-  address: createMockAddress,
+  address: mockAddressParams,
 }
+
+const { id, name, document, email, phone, address } = mockCustomerParams
 
 export const mockCustomer: Customer = {
   id: '7ada6eeb-fc6e-402e-bcfa-45a9497e6b9e',
-  ...createMockCustomer,
+  ...mockCustomerParams,
   active: true,
   createdAt: new Date(),
   updatedAt: new Date(),
@@ -29,4 +33,22 @@ export const mockCustomer: Customer = {
 
 export const idMockCustomer: GetCustomerByIdValidation = {
   id: '7ada6eeb-fc6e-402e-bcfa-45a9497e6b9e',
+}
+
+export const createMockCustomer: CreateCustomerValidation = {
+  name,
+  document,
+  email,
+  phone,
+  address,
+}
+
+export const updateMockCustomer: UpdateCustomerValidation = {
+  id,
+  name,
+  document,
+  email,
+  phone,
+  address,
+  active: true,
 }

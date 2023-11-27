@@ -3,7 +3,6 @@ import { CreateCustomerUseCase } from 'src/app/customer/create-customer-use-case
 import { mockCustomer, createMockCustomer } from '../infra/customer/customer.mock'
 import { CustomerDocument } from 'src/infra/modules/database/mongoose/customer/schema/customer.schema'
 import MongooseRepository from 'src/infra/modules/database/mongoose/mongoose.repository'
-import { Customer } from 'src/domain/customer/entities/Customer'
 
 describe('CreateCustomerUseCase', () => {
   let createCustomerUseCase: CreateCustomerUseCase

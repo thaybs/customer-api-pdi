@@ -10,7 +10,9 @@ import { AuthService } from 'src/infra/auth/auth.service'
 import MongooseRepository from '../database/mongoose/mongoose.repository'
 import { Model } from 'mongoose'
 import { GetCustomerByIdUseCase } from 'src/app/customer/get-customer-by-id-use-case'
+import { UpdateCustomerUseCase } from 'src/app/customer/update-customer-use-case '
 import { DeleteCustomerByIdUseCase } from 'src/app/customer/delete-customer-by-id-use-case'
+import { CustomerRepository } from 'src/infra/data/model/customer.repository'
 
 @Module({
   imports: [DatabaseModule],
@@ -25,10 +27,12 @@ import { DeleteCustomerByIdUseCase } from 'src/app/customer/delete-customer-by-i
       useValue: CustomerModel,
     },
     MongooseRepository,
+    CustomerRepository,
     AuthService,
     CreateCustomerUseCase,
     ListCustomerUseCase,
     GetCustomerByIdUseCase,
+    UpdateCustomerUseCase,
     DeleteCustomerByIdUseCase,
     ...customerProviders,
   ],
