@@ -10,20 +10,18 @@ export const CustomerSchema = new mongoose.Schema(
     document: { type: String, required: true, nullable: false },
     email: { type: String, required: true, nullable: false },
     phone: { type: String, required: true, nullable: false },
-    address: [
-      new Schema(
-        {
-          postalCode: { type: String, required: false },
-          street: { type: String, required: false },
-          number: { type: String, required: false },
-          neighborhood: { type: String, required: false },
-          city: { type: String, required: false },
-        },
-        {
-          _id: false,
-        },
-      ),
-    ],
+    address: new Schema(
+      {
+        postalCode: { type: String, required: false },
+        street: { type: String, required: false },
+        number: { type: String, required: false },
+        neighborhood: { type: String, required: false },
+        city: { type: String, required: false },
+      },
+      {
+        _id: false,
+      },
+    ),
     active: { type: Boolean, required: false, nullable: false },
     createdAt: { type: Date, required: false, nullable: false },
     updatedAt: { type: Date, required: false, nullable: true },
