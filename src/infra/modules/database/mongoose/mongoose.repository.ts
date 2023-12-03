@@ -10,7 +10,7 @@ export default class MongooseRepository<T extends Document> {
   }
 
   async update(id: string, data: Partial<T>): Promise<T | null> {
-    return this.model.findOneAndUpdate({ id: id }).exec()
+    return this.model.findOneAndUpdate({ id: id }, data, { new: true }).exec()
   }
 
   async findOne(conditions: FilterQuery<T>): Promise<T | null> {
