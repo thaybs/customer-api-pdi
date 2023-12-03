@@ -4,8 +4,7 @@ export interface IPaginate<T> {
   data: T[]
 }
 
-export interface IPagination<TFilter> {
+export interface IPagination {
   page: number
   pageSize: number
-  filter: TFilter
 }
