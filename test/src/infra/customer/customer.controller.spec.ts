@@ -13,7 +13,6 @@ import { CustomerModel } from 'src/infra/modules/database/mongoose/customer/sche
 import { GetCustomerByIdUseCase } from 'src/app/customer/get-customer-by-id-use-case'
 import { UpdateCustomerUseCase } from 'src/app/customer/update-customer-use-case '
 import { DeleteCustomerByIdUseCase } from 'src/app/customer/delete-customer-by-id-use-case'
-import { CustomerRepository } from 'src/infra/data/model/customer.repository'
 import { createMockCustomer, idMockCustomer, mockCustomer, updateMockCustomer } from './customer.mock'
 
 describe('CustomerController', () => {
@@ -40,7 +39,6 @@ describe('CustomerController', () => {
         GetCustomerByIdUseCase,
         UpdateCustomerUseCase,
         DeleteCustomerByIdUseCase,
-        CustomerRepository,
         ...customerProviders,
       ],
     }).compile()
@@ -60,7 +58,8 @@ describe('CustomerController', () => {
       const listCustomers = await customerController.findAll({
         page: 1,
         pageSize: 10,
-        filter: { name: '', document: '' },
+        name: '',
+        document: '',
       })
       expect(listCustomers).toEqual({ page: 1, pageSize: 10, data: [mockCustomer] })
     })

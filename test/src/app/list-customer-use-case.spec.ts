@@ -3,13 +3,12 @@ import { CustomerDocument } from 'src/infra/modules/database/mongoose/customer/s
 import MongooseRepository from 'src/infra/modules/database/mongoose/mongoose.repository'
 import { ListCustomerUseCase } from 'src/app/customer/list-customers-use-case'
 import { mockCustomer } from '../infra/customer/customer.mock'
-import { CustomerRepository } from 'src/infra/data/model/customer.repository'
 
 describe('ListCustomerUseCase', () => {
   let listCustomerUseCase: ListCustomerUseCase
   let mongooseRepository: MongooseRepository<CustomerDocument>
   let customerModel: Model<CustomerDocument>
-  let customerRepository: CustomerRepository
+
   beforeEach(() => {
     customerModel = {
       findAllWithPaginationAndFilters: jest.fn(),
@@ -18,18 +17,18 @@ describe('ListCustomerUseCase', () => {
 
     mongooseRepository = new MongooseRepository(customerModel)
 
-    listCustomerUseCase = new ListCustomerUseCase(mongooseRepository, customerRepository)
+    listCustomerUseCase = new ListCustomerUseCase(mongooseRepository)
   })
 
   it('should return a list of customers with NO filters', async () => {
     const mockCustomers = [mockCustomer as CustomerDocument]
     jest.spyOn(mongooseRepository, 'findAllWithPaginationAndFilters').mockResolvedValue(mockCustomers)
 
-    const params = { page: 1, pageSize: 10, filter: {} }
+    const params = { page: 1, pageSize: 10, name: '', document: '' }
     const result = await listCustomerUseCase.execute(params)
 
     expect(mongooseRepository.findAllWithPaginationAndFilters).toHaveBeenCalledWith(
-      params.filter,
+      expect.objectContaining({}),
       params.page,
       params.pageSize,
     )
@@ -39,14 +38,22 @@ describe('ListCustomerUseCase', () => {
   })
 
   it('should return a list of customers with filters', async () => {
-    const mockCustomers = [mockCustomer]
+    const mockCustomers = [mockCustomer as CustomerDocument]
+    const findAllMock = jest
+      .spyOn(mongooseRepository, 'findAllWithPaginationAndFilters')
+      .mockResolvedValue(mockCustomers)
 
-    jest.spyOn(customerRepository, 'findAllByNamePartialMatch').mockResolvedValueOnce(mockCustomers)
-
-    const params = { page: 1, pageSize: 10, filter: { name: '', document: '' } }
+    const params = { page: 1, pageSize: 10, name: 'João', document: '' }
     const result = await listCustomerUseCase.execute(params)
 
-    expect(customerRepository.findAllByNamePartialMatch).toHaveBeenCalledWith(params)
+    expect(findAllMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        name: params.name,
+        document: params.document,
+      }),
+      params.page,
+      params.pageSize,
+    )
 
     expect(result.page).toBe(params.page)
     expect(result.pageSize).toBe(params.pageSize)
@@ -54,17 +61,13 @@ describe('ListCustomerUseCase', () => {
   })
 
   it('should return an empty list when no customers are found', async () => {
-    const mockCustomers = [mockCustomer as CustomerDocument]
-    jest.spyOn(mongooseRepository, 'findAllWithPaginationAndFilters').mockResolvedValue([])
+    const findAllMock = jest.spyOn(mongooseRepository, 'findAllWithPaginationAndFilters').mockResolvedValue([])
 
-    const params = { page: 1, pageSize: 10, filter: {} }
+    const params = { page: 1, pageSize: 10, name: '', document: '' }
     const result = await listCustomerUseCase.execute(params)
 
-    expect(mongooseRepository.findAllWithPaginationAndFilters).toHaveBeenCalledWith(
-      params.filter,
-      params.page,
-      params.pageSize,
-    )
+    expect(findAllMock).toHaveBeenCalledWith(expect.objectContaining({}), params.page, params.pageSize)
+
     expect(result.page).toBe(params.page)
     expect(result.pageSize).toBe(params.pageSize)
     expect(result.data).toStrictEqual([])
