@@ -1,8 +1,7 @@
 import 'reflect-metadata'
 
 import { validate } from 'class-validator'
-import { AddressValidation } from 'src/api/customer/validations/address-validation'
-
+import { AddressValidation } from 'src/api/customer/dto/address-validation'
 describe('AddressValidation', () => {
   it('should not accept invalid data', async () => {
     const address = new AddressValidation()

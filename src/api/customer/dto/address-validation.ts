@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, Length, IsNumber, Matches } from 'class-validator'
+import { IsString, IsNotEmpty, IsNumber, Matches } from 'class-validator'
 
 export class AddressValidation {
   @IsString()
