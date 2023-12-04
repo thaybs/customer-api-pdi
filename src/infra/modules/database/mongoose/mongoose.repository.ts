@@ -28,12 +28,17 @@ export default class MongooseRepository<T extends Document> {
 
   async findAllWithPaginationAndFilters(filters: FilterQuery<T>, page: number, pageSize: number): Promise<T[]> {
     const skip = (page - 1) * pageSize
-
     const regexFilters: FilterQuery<Document<T>> = {}
+
     for (const key in filters) {
       if (filters.hasOwnProperty(key)) {
         if (filters[key] != null) {
-          regexFilters[key] = { $regex: new RegExp(filters[key].toString(), 'i') }
+          const value = filters[key]
+          if (typeof value === 'string' && (value.toLowerCase() === 'true' || value.toLowerCase() === 'false')) {
+            regexFilters[key] = value.toLowerCase() === 'true'
+          } else {
+            regexFilters[key] = { $regex: new RegExp(value.toString(), 'i') }
+          }
         }
       }
     }

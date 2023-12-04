@@ -9,9 +9,9 @@ export class ListCustomerUseCase {
   constructor(private mongooseRepository: MongooseRepository<CustomerDocument>) {}
 
   async execute(params: ListCustomerDto): Promise<ListCustomerResponse> {
-    const { name, document, page, pageSize } = params
+    const { name, document, active, page, pageSize } = params
 
-    let filter = { name, document }
+    let filter = { name, document, active }
 
     const customer = await this.mongooseRepository.findAllWithPaginationAndFilters(filter, page, pageSize)
 
