@@ -12,6 +12,7 @@ import { Model } from 'mongoose'
 import { GetCustomerByIdUseCase } from 'src/app/customer/get-customer-by-id-use-case'
 import { UpdateCustomerUseCase } from 'src/app/customer/update-customer-use-case '
 import { DeleteCustomerByIdUseCase } from 'src/app/customer/delete-customer-by-id-use-case'
+import { DeactivateCustomerUseCase } from 'src/app/customer/deactivate-customer-use-case'
 
 @Module({
   imports: [DatabaseModule],
@@ -31,6 +32,7 @@ import { DeleteCustomerByIdUseCase } from 'src/app/customer/delete-customer-by-i
     ListCustomerUseCase,
     GetCustomerByIdUseCase,
     UpdateCustomerUseCase,
+    DeactivateCustomerUseCase,
     DeleteCustomerByIdUseCase,
     ...customerProviders,
   ],
