@@ -66,8 +66,8 @@ export class CustomerController {
   @Patch(':id')
   @SetMetadata('roles', ['user'])
   @HttpCode(204)
-  async deactivate(@Param('id') id: string, @Body() params: DeactivateCustomerValidation): Promise<void> {
-    return this.deactivateCustomerUseCase.execute(id, params)
+  async deactivate(@Param() params: DeactivateCustomerValidation): Promise<void> {
+    return this.deactivateCustomerUseCase.execute(params)
   }
 
   @Delete(':id')
