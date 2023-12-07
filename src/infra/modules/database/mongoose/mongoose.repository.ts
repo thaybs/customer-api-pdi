@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common'
 import { Model, Document, FilterQuery } from 'mongoose'
+import IMongooseRepository from './mongoose.interface'
 
 @Injectable()
-export default class MongooseRepository<T extends Document> {
+export default class MongooseRepository<T extends Document> implements IMongooseRepository<T> {
   constructor(private readonly model: Model<T>) {}
 
   async create(data: Partial<T>): Promise<T> {
@@ -19,11 +20,6 @@ export default class MongooseRepository<T extends Document> {
 
   async findAll(): Promise<T[]> {
     return this.model.find().exec()
-  }
-
-  async findOneByField(fieldName: string, value: any): Promise<T | null> {
-    const query = { [fieldName]: value } as FilterQuery<T>
-    return this.model.findOne(query).exec()
   }
 
   async findAllWithPaginationAndFilters(filters: FilterQuery<T>, page: number, pageSize: number): Promise<T[]> {
