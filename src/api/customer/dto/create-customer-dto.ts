@@ -24,4 +24,6 @@ export class CreateCustomerValidation {
   @ValidateNested()
   @Type(() => AddressValidation)
   address: AddressValidation
+
+  active: boolean
 }
