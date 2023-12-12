@@ -1,10 +1,19 @@
-export interface IPaginate<T> {
+import { ApiProperty } from '@nestjs/swagger'
+import { IsNotEmpty, IsNumber } from 'class-validator'
+
+export class IPaginate {
+  @ApiProperty()
   page: number
+  @ApiProperty()
   pageSize: number
-  data: T[]
 }
 
-export interface IPagination {
+export class IPagination {
+  @IsNotEmpty()
+  @ApiProperty()
   page: number
+
+  @IsNotEmpty()
+  @ApiProperty()
   pageSize: number
 }
