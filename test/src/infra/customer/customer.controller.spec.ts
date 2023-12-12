@@ -64,7 +64,7 @@ describe('CustomerController', () => {
         pageSize: 10,
         name: '',
         document: '',
-        active: 'false',
+        active: false,
       })
       expect(listCustomers).toEqual({ page: 1, pageSize: 10, data: [mockCustomer] })
     })

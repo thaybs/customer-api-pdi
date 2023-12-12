@@ -24,20 +24,18 @@ export default class MongooseRepository<T extends Document> implements IMongoose
 
   async findAllWithPaginationAndFilters(filters: FilterQuery<T>, page: number, pageSize: number): Promise<T[]> {
     const skip = (page - 1) * pageSize
+
     const regexFilters: FilterQuery<Document<T>> = {}
 
-    for (const key in filters) {
-      if (filters.hasOwnProperty(key)) {
-        if (filters[key] != null) {
-          const value = filters[key]
-          if (typeof value === 'string' && (value.toLowerCase() === 'true' || value.toLowerCase() === 'false')) {
-            regexFilters[key] = value.toLowerCase() === 'true'
-          } else {
-            regexFilters[key] = { $regex: new RegExp(value.toString(), 'i') }
-          }
+    Object.entries(filters).forEach(([key, value]) => {
+      if (value != null) {
+        if (key === 'active' && typeof value === 'string') {
+          regexFilters[key] = value.toLowerCase() === 'true'
+        } else {
+          regexFilters[key] = { $regex: new RegExp(String(value), 'i') }
         }
       }
-    }
+    })
 
     return this.model.find(regexFilters).skip(skip).limit(pageSize).exec()
   }
