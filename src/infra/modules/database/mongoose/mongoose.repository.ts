@@ -29,7 +29,7 @@ export default class MongooseRepository<T extends Document> implements IMongoose
 
     Object.entries(filters).forEach(([key, value]) => {
       if (value != null) {
-        if (key === 'active' && typeof value === 'string') {
+        if (typeof value === 'string' && (value === 'true' || value === 'false')) {
           regexFilters[key] = value.toLowerCase() === 'true'
         } else {
           regexFilters[key] = { $regex: new RegExp(String(value), 'i') }
