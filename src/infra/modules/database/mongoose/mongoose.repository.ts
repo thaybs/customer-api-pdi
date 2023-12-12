@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common'
 import { Model, Document, FilterQuery } from 'mongoose'
+import IMongooseRepository from './mongoose.interface'
 
 @Injectable()
-export default class MongooseRepository<T extends Document> {
+export default class MongooseRepository<T extends Document> implements IMongooseRepository<T> {
   constructor(private readonly model: Model<T>) {}
 
   async create(data: Partial<T>): Promise<T> {
@@ -21,27 +22,20 @@ export default class MongooseRepository<T extends Document> {
     return this.model.find().exec()
   }
 
-  async findOneByField(fieldName: string, value: any): Promise<T | null> {
-    const query = { [fieldName]: value } as FilterQuery<T>
-    return this.model.findOne(query).exec()
-  }
-
   async findAllWithPaginationAndFilters(filters: FilterQuery<T>, page: number, pageSize: number): Promise<T[]> {
     const skip = (page - 1) * pageSize
+
     const regexFilters: FilterQuery<Document<T>> = {}
 
-    for (const key in filters) {
-      if (filters.hasOwnProperty(key)) {
-        if (filters[key] != null) {
-          const value = filters[key]
-          if (typeof value === 'string' && (value.toLowerCase() === 'true' || value.toLowerCase() === 'false')) {
-            regexFilters[key] = value.toLowerCase() === 'true'
-          } else {
-            regexFilters[key] = { $regex: new RegExp(value.toString(), 'i') }
-          }
+    Object.entries(filters).forEach(([key, value]) => {
+      if (value != null) {
+        if (key === 'active' && typeof value === 'string') {
+          regexFilters[key] = value.toLowerCase() === 'true'
+        } else {
+          regexFilters[key] = { $regex: new RegExp(String(value), 'i') }
         }
       }
-    }
+    })
 
     return this.model.find(regexFilters).skip(skip).limit(pageSize).exec()
   }

@@ -1,36 +1,37 @@
-import { Model } from 'mongoose'
 import { CreateCustomerUseCase } from 'src/app/customer/create-customer-use-case'
 import { mockCustomer, createMockCustomer } from '../infra/customer/customer.mock'
+import { Model } from 'mongoose'
+import CustomerRepository from 'src/infra/modules/customer/customer.repository'
 import { CustomerDocument } from 'src/infra/modules/database/mongoose/customer/schema/customer.schema'
-import MongooseRepository from 'src/infra/modules/database/mongoose/mongoose.repository'
 
 describe('CreateCustomerUseCase', () => {
+  // Criar testes restantes
   let createCustomerUseCase: CreateCustomerUseCase
-  let mongooseRepository: MongooseRepository<CustomerDocument>
+  let customerRepository: CustomerRepository
 
   beforeEach(() => {
     const customerModel: Model<CustomerDocument> = {
       create: jest.fn(),
     } as unknown as Model<CustomerDocument>
 
-    mongooseRepository = new MongooseRepository(customerModel)
+    customerRepository = new CustomerRepository(customerModel)
 
-    createCustomerUseCase = new CreateCustomerUseCase(mongooseRepository)
+    createCustomerUseCase = new CreateCustomerUseCase(customerRepository)
   })
 
   it('should create a customer', async () => {
-    jest.spyOn(mongooseRepository, 'findOneByField').mockResolvedValue(null)
-    jest.spyOn(mongooseRepository, 'create').mockResolvedValue(mockCustomer as CustomerDocument)
+    jest.spyOn(customerRepository, 'findOne').mockResolvedValue(null)
+    jest.spyOn(customerRepository, 'create').mockResolvedValue(mockCustomer as CustomerDocument)
 
     const customer = await createCustomerUseCase.execute(createMockCustomer)
 
-    expect(mongooseRepository.create).toBeCalled()
+    expect(customerRepository.create).toBeCalled()
     expect(customer).toBe(mockCustomer)
   })
 
   it('should throw an error if the e-mail exists', async () => {
-    jest.spyOn(mongooseRepository, 'findOneByField').mockResolvedValue(mockCustomer as CustomerDocument)
-    jest.spyOn(mongooseRepository, 'create').mockResolvedValue(mockCustomer as CustomerDocument)
+    jest.spyOn(customerRepository, 'findOne').mockResolvedValue(mockCustomer as CustomerDocument)
+    jest.spyOn(customerRepository, 'create').mockResolvedValue(mockCustomer as CustomerDocument)
 
     try {
       await createCustomerUseCase.execute(createMockCustomer)
@@ -39,6 +40,6 @@ describe('CreateCustomerUseCase', () => {
       expect(error.message).toBe('Email already exists!')
     }
 
-    expect(mongooseRepository.create).not.toBeCalled()
+    expect(customerRepository.create).not.toBeCalled()
   })
 })

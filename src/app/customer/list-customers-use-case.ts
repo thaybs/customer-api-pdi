@@ -1,19 +1,17 @@
 import { Injectable } from '@nestjs/common'
 import { ListCustomerDto, ListCustomerResponse } from 'src/api/customer/dto/list-customer-dto'
-import { Customer } from 'src/domain/customer/entities/Customer'
-import { CustomerDocument } from 'src/infra/modules/database/mongoose/customer/schema/customer.schema'
-import MongooseRepository from 'src/infra/modules/database/mongoose/mongoose.repository'
+import CustomerRepository from 'src/infra/modules/customer/customer.repository'
 
 @Injectable()
 export class ListCustomerUseCase {
-  constructor(private mongooseRepository: MongooseRepository<CustomerDocument>) {}
+  constructor(private customerRepository: CustomerRepository) {}
 
   async execute(params: ListCustomerDto): Promise<ListCustomerResponse> {
     const { name, document, active, page, pageSize } = params
 
     let filter = { name, document, active }
 
-    const customer = await this.mongooseRepository.findAllWithPaginationAndFilters(filter, page, pageSize)
+    const customer = await this.customerRepository.findAllWithPaginationAndFilters(filter, page, pageSize)
 
     return { page, pageSize, data: customer }
   }

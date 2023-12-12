@@ -1,32 +1,34 @@
-import { DeleteCustomerByIdUseCase } from 'src/app/customer/delete-customer-by-id-use-case'
-import { NotFoundException } from '@nestjs/common'
-import { mockCustomer, idMockCustomer } from '../infra/customer/customer.mock'
-import CustomerRepository from 'src/infra/modules/customer/customer.repository'
 import { Model } from 'mongoose'
+import { idMockCustomer, mockCustomer } from '../infra/customer/customer.mock'
 import { CustomerDocument } from 'src/infra/modules/database/mongoose/customer/schema/customer.schema'
+import { NotFoundException } from '@nestjs/common'
+import { DeactivateCustomerUseCase } from 'src/app/customer/deactivate-customer-use-case'
+import CustomerRepository from 'src/infra/modules/customer/customer.repository'
 
-describe('DeleteCustomerByIdUseCase', () => {
-  let deleteCustomerByIdUseCase: DeleteCustomerByIdUseCase
+describe('DeactivateCustomerUseCase', () => {
+  let deactivateCustomerUseCase: DeactivateCustomerUseCase
   let customerRepository: CustomerRepository
 
   beforeEach(() => {
     const customerModel: Model<CustomerDocument> = {
+      update: jest.fn(),
+      findOneByField: jest.fn(),
       findOne: jest.fn(),
-      delete: jest.fn(),
     } as unknown as Model<CustomerDocument>
 
     customerRepository = new CustomerRepository(customerModel)
 
-    deleteCustomerByIdUseCase = new DeleteCustomerByIdUseCase(customerRepository)
+    deactivateCustomerUseCase = new DeactivateCustomerUseCase(customerRepository)
   })
 
-  it('should delete a customer by its id', async () => {
+  it('should deactivate a customer', async () => {
     jest.spyOn(customerRepository, 'findOne').mockResolvedValue(mockCustomer as CustomerDocument)
-    jest.spyOn(customerRepository, 'delete').mockResolvedValue()
+    jest.spyOn(customerRepository, 'update').mockResolvedValue(mockCustomer as CustomerDocument)
 
-    const customer = await deleteCustomerByIdUseCase.execute(idMockCustomer)
+    const customer = await deactivateCustomerUseCase.execute(idMockCustomer)
 
     expect(customerRepository.findOne).toBeCalled()
+    expect(customerRepository.update).toBeCalled()
     expect(customer).toBeUndefined()
   })
 
@@ -34,7 +36,7 @@ describe('DeleteCustomerByIdUseCase', () => {
     jest.spyOn(customerRepository, 'findOne').mockResolvedValue(null)
 
     try {
-      await deleteCustomerByIdUseCase.execute(idMockCustomer)
+      await deactivateCustomerUseCase.execute(idMockCustomer)
     } catch (error) {
       expect(error).toBeInstanceOf(NotFoundException)
       expect(error.message).toBe('Customer not found!')

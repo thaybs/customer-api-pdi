@@ -83,41 +83,108 @@ $ npm run test:cov
     <tr>
       <td>--</td>
       <td><pre>{
-  name: string,
-  description: string; //optional
-  active: boolean;
+    id: string
+  name: string
+  document: string
+  email: string
+  phone: string
+  address: {
+    postalCode: string
+    street: string
+    number: number
+    neighborhood: string
+    city: string
+  }
+  createdAt?: Date 
+  updatedAt?: Date | null
 }</pre></td>
       <td style="white-space: pre-line;">
         <pre>{ 
-  name: "customer name", 
-  description: "A description of the customer",  
-  active: true, 
+  id: "f20fee7f-20bc-47fc-b2ea-14ca88a58e8b"
+  name: "customer name"
+  document: "00477272096"
+  email: "email@mail.com"
+  phone: "11000000000"
+  address: {
+    postalCode: "00000000"
+    street: "customer street"
+    number: 10
+    neighborhood: "neighbor"
+    city: "city customer"
+  }
+  createdAt?: "2023-12-06T21:48:32.795Z 
+  updatedAt?: null
 }</pre>
       <td style="white-space: pre-line;">
         <pre>
   { 
-    id: "f20fee7f-20bc-47fc-b2ea-14ca88a58e8b",
-    name: "customer name", 
-    description: "A description of the customer",  
+    id: "f20fee7f-20bc-47fc-b2ea-14ca88a58e8b"
+    name: "customer name"
+    document: "00477272096"
+    email: "email@mail.com"
+    phone: "11000000000"
+    address: {
+      postalCode: "00000000"
+      street: "customer street"
+      number: 10
+      neighborhood: "neighbor"
+      city: "city customer"
+    }
+    createdAt?: "2023-12-06T21:48:32.795Z 
+    updatedAt?: null
     active: true, 
-    createdAt: "11-01-2022" 
   }</pre>
       <td>200 OK</td>
     </tr>
     <tr>
-    <td>--</td>
+      <td>--</td>
       <td><pre>{
-  name: string,
-  description: string; //optional
-  active: boolean;
+    id: string
+    name: string
+    document: string
+    email: string
+    phone: string
+    address: {
+      postalCode: string
+    street: string
+    number: number
+    neighborhood: string
+    city: string
+    }
+    createdAt?: Date 
+    updatedAt?: Date | null
 }</pre></td>
       <td style="white-space: pre-line;">
         <pre>{ 
-  name: "customer name", 
-  description: "A description of the customer",  
-  active: true, 
+  id: "f20fee7f-20bc-47fc-b2ea-14ca88a58e8b"
+  name: "customer name"
+  document: "00477272096"
+  email: "email1@mail.com"
+  phone: "11000000000"
+  address: {
+    postalCode: "00000000"
+  street: "customer street"
+  number: 10
+  neighborhood: "neighbor"
+  city: "city customer"
+  }
+  createdAt?: "2023-12-06T21:48:32.795Z 
+  updatedAt?: null
 }</pre>
       <td style="white-space: pre-line;">
+        <pre>
+  {
+    "statusCode": 412,
+    "message": "Email already exists!",
+    "error": "Precondition Failed"
+}</pre>
+      <td>412 Precondition Failed</td>
+    </tr>
+    <tr>
+    <td>--</td>
+    <td>--</td>
+    <td>--</td>
+    <td style="white-space: pre-line;">
         <pre>
         {
     "statusCode": 403,
@@ -148,26 +215,49 @@ $ npm run test:cov
   </thead>
   <tbody>
     <tr>
+      <td>page: number, pageSize: number, document: string, name: string, active: boolean</td>
       <td>--</td>
-      <td>--</td>
-      <td>--</td>
+      <td>pageSize=10&page=1&document=00477272096&name=customer&active=true</td>
       <td style="white-space: pre-line;">
-        <pre>[ 
+        <pre>{
+page: 1
+pagesize: 10
+data: [ 
   { 
-    id: "f20fee7f-20bc-47fc-b2ea-14ca88a58e8b",
-    name: "customer name", 
-    description: "A description of the customer",  
-    active: true, 
-    createdAt: "11-01-2022" 
+    id: "f20fee7f-20bc-47fc-b2ea-14ca88a58e8b"
+    name: "customer name"
+    document: "00477272096"
+    email: "email@mail.com"
+    phone: "11000000000"
+    address: {
+      postalCode: "00000000"
+      street: "customer street"
+      number: 10
+      neighborhood: "neighbor"
+      city: "city customer"
+    }
+    createdAt?: "2023-12-06T21:48:32.795Z 
+    updatedAt?: null
+    active: true,
   },
   { 
-    id: "8da2b069-76d2-412e-a89d-e7d31cf08e1a",
-    name: "customer name foo", 
-    description: "A description of the customer",  
-    active: true, 
-    createdAt: "28-02-2022" 
+    id: "f20fee7f-20bc-47fc-b2ea-14ca88a58e8b"
+    name: "second customer"
+    document: "00477272096"
+    email: "email2@mail.com"
+    phone: "11000000000"
+    address: {
+      postalCode: "00000000"
+      street: "second street"
+      number: 10
+      neighborhood: "neighbor"
+      city: "city second"
+    }
+    createdAt?: "2023-12-06T21:48:32.795Z 
+    updatedAt?: null
+    active: true,
   }
-]<pre>
+]}<pre>
       </td>
       <td>200 OK</td>
     </tr>
@@ -212,11 +302,21 @@ $ npm run test:cov
       <td style="white-space: pre-line;">
         <pre>
   { 
-    id: "f20fee7f-20bc-47fc-b2ea-14ca88a58e8b",
-    name: "customer name", 
-    description: "A description of the customer",  
+    id: "f20fee7f-20bc-47fc-b2ea-14ca88a58e8b"
+    name: "customer name"
+    document: "00477272096"
+    email: "email@mail.com"
+    phone: "11000000000"
+    address: {
+      postalCode: "00000000"
+      street: "customer street"
+      number: 10
+      neighborhood: "neighbor"
+      city: "city customer"
+    }
+    createdAt?: "2023-12-06T21:48:32.795Z 
+    updatedAt?: null
     active: true, 
-    createdAt: "11-01-2022" 
   }</pre>
  </td>
       <td>200 OK</td>
@@ -229,7 +329,7 @@ $ npm run test:cov
         <pre>
         {
     "statusCode": 404,
-    "message": "Cannot GET /customers/{id}",
+    "message": "Customer Not Found!",
     "error": "Not Found"
 }
   </pre>
@@ -275,37 +375,82 @@ $ npm run test:cov
       <td style="white-space: pre-line;">
         <pre>
   { 
-    id: "f20fee7f-20bc-47fc-b2ea-14ca88a58e8b",
-    name: "updated customer", 
-    description: "A description of the customer",  
+    id: "f20fee7f-20bc-47fc-b2ea-14ca88a58e8b"
+    name: "customer name"
+    document: "00477272096"
+    email: "email@mail.com"
+    phone: "11000000000"
+    address: {
+      postalCode: "00000000"
+      street: "customer street"
+      number: 10
+      neighborhood: "neighbor"
+      city: "city customer"
+    }
     active: true, 
-    createdAt: "11-01-2022" 
   }</pre>
  </td>
       <td>--</td>
-      <td>204 NO CONTENT</td>
+      <td>200 OK</td>
     </tr><tr>
       <td>customerId</td>
       <td>string</td>
       <td style="white-space: pre-line;">
         <pre>
   { 
-    id: "f20fee7f-20bc-47fc-b2ea-14ca88a58e8b",
-    name: "updated customer", 
-    description: "A description of the customer",  
+    id: "f20fee7f-20bc-47fc-b2ea-14ca88a58e7a"
+    name: "customer name"
+    document: "00477272096"
+    email: "email@mail.com"
+    phone: "11000000000"
+    address: {
+      postalCode: "00000000"
+      street: "customer street"
+      number: 10
+      neighborhood: "neighbor"
+      city: "city customer"
+    }
     active: true, 
-    createdAt: "11-01-2022" 
   }</pre>
  </td>
       <td style="white-space: pre-line;">
         <pre>
         {
     "statusCode": 404,
-    "message": "Cannot UPDATE /customers/{id}",
+    "message": "Customer not found!",
     "error": "Not Found"
 }
   </pre>
       <td>404 Not Found</td>
+    </tr><tr>
+      <td>customerId</td>
+      <td>string</td>
+      <td style="white-space: pre-line;">
+        <pre>
+  { 
+    id: "f20fee7f-20bc-47fc-b2ea-14ca88a58e7a"
+    name: "customer name"
+    document: "00477272096"
+    email: "email@mail.com"
+    phone: "11000000000"
+    address: {
+      postalCode: "00000000"
+      street: "customer street"
+      number: 10
+      neighborhood: "neighbor"
+      city: "city customer"
+    }
+    active: true, 
+  }</pre>
+ </td>
+      <td style="white-space: pre-line;">
+        <pre>
+  {
+    "statusCode": 412,
+    "message": "Email already exists!",
+    "error": "Precondition Failed"
+}</pre>
+      <td>412 Precondition Failed</td>
     </tr>
     <tr>
       <td>customerId</td>
@@ -313,11 +458,19 @@ $ npm run test:cov
       <td style="white-space: pre-line;">
         <pre>
   { 
-    id: "f20fee7f-20bc-47fc-b2ea-14ca88a58e8b",
-    name: "updated customer", 
-    description: "A description of the customer",  
+    id: "f20fee7f-20bc-47fc-b2ea-14ca88a58e7a"
+    name: "customer name"
+    document: "00477272096"
+    email: "email@mail.com"
+    phone: "11000000000"
+    address: {
+      postalCode: "00000000"
+      street: "customer street"
+      number: 10
+      neighborhood: "neighbor"
+      city: "city customer"
+    }
     active: true, 
-    createdAt: "11-01-2022" 
   }</pre>
  </td>
       <td style="white-space: pre-line;">
@@ -336,7 +489,7 @@ $ npm run test:cov
 #### Delete customer by Id
 
 ```http
-  DELETE /api/customers/${customerId}
+  DELETE /api/customers/${customerId} //Deleta cliente através do id
 ```
 
 <table>
@@ -365,7 +518,62 @@ $ npm run test:cov
         <pre>
         {
     "statusCode": 404,
-    "message": "Cannot DELETE /customers/{id}",
+    "message": "Customer not found!",
+    "error": "Not Found"
+}
+  </pre>
+      <td>404 Not Found</td>
+    </tr>
+    <tr>
+      <td>customerId</td>
+      <td>string</td>
+      <td>--</td>
+      <td style="white-space: pre-line;">
+        <pre>
+        {
+    "statusCode": 403,
+    "message": "Forbidden resource",
+    "error": "Forbidden"
+}
+  </pre>
+      <td>403 Unauthorized</td>
+    </tr>
+  </tbody>
+</table>
+
+#### Deactivate customer by Id
+
+```http
+  PATCH /api/customers/${customerId} //Desativa cliente
+```
+
+<table>
+  <thead>
+    <tr>
+      <th>Paramêtros</th>
+      <th>Tipo</th>
+      <th>Requisição</th>
+      <th>Resposta</th>
+      <th>Código de status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>customerId</td>
+      <td>string</td>
+      <td>--</td>
+      <td>--</td>
+      <td>204 NO CONTENT</td>
+    </tr>
+    <tr>
+      <td>customerId</td>
+      <td>string</td>
+      <td>--</td>
+      <td style="white-space: pre-line;">
+        <pre>
+        {
+    "statusCode": 404,
+    "message": "Customer not found!",
     "error": "Not Found"
 }
   </pre>
@@ -391,9 +599,7 @@ $ npm run test:cov
 ## Documentação
 
 <ul>
-    <li><strong><a href="http://google.com" target="_blank">Swagger</a></strong></li>
-    <li><strong>Diagramas<p></p></a></strong></li>
-</ul>
+    <li><strong><a href="http://localhost:3000/swagger" target="_blank">Swagger</a></strong></li>
 
 ## 🌟 Resultado Final Esperado
 
@@ -406,7 +612,7 @@ $ npm run test:cov
     <li><strong>Validação de Dados:</strong> Garantia da validação dos dados nas operações de cadastro e atualização.</li>
     <li><strong>Testes e Qualidade de Código:</strong> Implementação de testes unitários com Jest para assegurar a qualidade do código.</li>
     <li><strong>Gestão de Erros e Logs:</strong> Tratamento de erros, definição de códigos de status HTTP e registro de logs para manutenção.</li>
-    <li><strong>Operações de CRUD:</strong> Desenvolvimento das operações de leitura (get), atualização (update), listagem (list) e exclusão (delete) de produtos.</li>
+    <li><strong>Operações de CRUD:</strong> Desenvolvimento das operações de leitura (get), atualização (update), listagem (list) e exclusão (delete) de produtos. E a possibilidade de desativar clientes via ID.</li>
     <li><strong>Documentação Completa:</strong> Criação de documentação Swagger detalhada para facilitar o uso da API.</li>
   </ul>
   <p>O resultado final será uma API completa e bem documentada, capaz de gerenciar produtos de forma segura e eficiente, atendendo aos padrões de qualidade e boas práticas de desenvolvimento.</p>
@@ -419,7 +625,6 @@ $ npm run test:cov
 
 <ul>
     <li><a href="https://www.npmjs.com/package/mongoose" target="_blank">Mongoose</a></li>
-    <li><a href="https://www.npmjs.com/package/jest" target="_blank">jest</a></li>
-    <li><a href="http://google.com" target="_blank">...</a></li>
-    <li><a href="http://google.com" target="_blank">...</a></li>
+    <li><a href="https://www.npmjs.com/package/jest" target="_blank">Jest</a></li>
+    <li><a href="https://docs.nestjs.com/" target="_blank">NestJS</a></li>
 </ul>

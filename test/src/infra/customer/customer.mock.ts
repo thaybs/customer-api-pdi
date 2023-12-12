@@ -19,9 +19,10 @@ export const mockCustomerParams = {
   email: 'email@email.com',
   phone: '21-987654321',
   address: mockAddressParams,
+  active: true,
 }
 
-const { id, name, document, email, phone, address } = mockCustomerParams
+const { id, name, document, email, phone, address, active } = mockCustomerParams
 
 export const mockCustomer: Customer = {
   id: '7ada6eeb-fc6e-402e-bcfa-45a9497e6b9e',
@@ -41,6 +42,7 @@ export const createMockCustomer: CreateCustomerValidation = {
   email,
   phone,
   address,
+  active,
 }
 
 export const updateMockCustomer: UpdateCustomerValidation = {
