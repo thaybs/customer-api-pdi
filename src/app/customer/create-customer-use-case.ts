@@ -11,8 +11,8 @@ export class CreateCustomerUseCase {
     const existingCustomer = await this.customerRepository.findOne({ email: params.email })
     if (existingCustomer) throw new PreconditionFailedException('Email already exists!')
 
-    const customer = await this.customerRepository.create({ ...params, active: true })
+    const customer = Customer.create(params)
 
-    return customer
+    return this.customerRepository.create(customer)
   }
 }

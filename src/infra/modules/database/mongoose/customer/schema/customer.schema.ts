@@ -22,7 +22,7 @@ export const CustomerSchema = new mongoose.Schema(
         _id: false,
       },
     ),
-    active: { type: Boolean, required: false, nullable: false },
+    active: { type: Boolean, required: false, default: true },
     createdAt: { type: Date, required: false, nullable: false },
     updatedAt: { type: Date, required: false, nullable: true },
   },

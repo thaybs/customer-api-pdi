@@ -16,10 +16,8 @@ export class UpdateCustomerUseCase {
       throw new PreconditionFailedException('Email already exists for another customer!')
     }
 
-    customer.updatedAt = new Date()
+    const updatedCustomer = Customer.update(params.name, params.email, params.phone, params.address)
 
-    const updatedCustomer = await this.customerRepository.update(id, params)
-
-    return updatedCustomer
+    return this.customerRepository.update(id, updatedCustomer)
   }
 }
