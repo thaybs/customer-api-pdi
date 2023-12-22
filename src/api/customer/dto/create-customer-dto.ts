@@ -30,6 +30,4 @@ export class CreateCustomerValidation {
   @ApiProperty({ type: () => AddressValidation })
   @Type(() => AddressValidation)
   address: AddressValidation
-
-  active: boolean
 }

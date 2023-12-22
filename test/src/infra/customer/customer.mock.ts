@@ -42,7 +42,6 @@ export const createMockCustomer: CreateCustomerValidation = {
   email,
   phone,
   address,
-  active,
 }
 
 export const updateMockCustomer: UpdateCustomerValidation = {
