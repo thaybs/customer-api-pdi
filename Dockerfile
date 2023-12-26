@@ -1,10 +1,10 @@
 FROM node:16-alpine
 
-WORKDIR /app
+WORKDIR /usr/src/app
 
 COPY ["package*.json", "tsconfig*.json", "./"]
 
-RUN npm ci
+RUN npm install
 
 COPY . .
 
